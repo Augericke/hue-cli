@@ -91,13 +91,13 @@ const toggleRoomScene = async (id: string, scene: string) => {
 // Adjust room brightness (0 - 254)
 const adjustRoomBrightness = async (
   id: string,
-  bri_inc?: number,
   bri?: number,
+  bri_inc?: number,
 ) => {
   /* 
     id - id of room as returned by getRooms()
-    bri_inc - amount brightness can be incremented (-254 - 254). Exceeding the range will result in the light either turning on or off.
     bri - sets brightness to a specific value (0 - 254)
+    bri_inc - amount brightness can be incremented (-254 - 254). Exceeding the range will result in the light either turning on or off.
     ------------
     Adjust brightness of all lights in a room
   */

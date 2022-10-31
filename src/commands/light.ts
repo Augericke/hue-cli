@@ -5,6 +5,7 @@ import lightService from "../services/lights";
 class Light extends BaseCommand {
   constructor() {
     super("light", "control an individual light");
+    //TODO: add options to avoid prompt flow
   }
 
   action() {
