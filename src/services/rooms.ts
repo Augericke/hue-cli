@@ -101,8 +101,6 @@ const adjustRoomBrightness = async (
   }
 };
 
-// TODO: add service for changing color
-
 export default {
   getRooms,
   getRoom,

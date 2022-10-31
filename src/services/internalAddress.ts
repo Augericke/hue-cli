@@ -50,5 +50,4 @@ const setInternalAddress = async () => {
   }
 };
 
-setInternalAddress();
 export default setInternalAddress;

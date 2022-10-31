@@ -74,13 +74,13 @@ const toggleLightOn = async (id: number, turnOn: boolean) => {
 // Adjust lights brightness (0 - 254)
 const adjustLightBrightness = async (
   id: number,
-  bri_inc?: number,
   bri?: number,
+  bri_inc?: number,
 ) => {
   /* 
     id - id of light as returned by getLights()
-    bri_inc - amount brightness can be incremented (-254 - 254). Exceeding the range will result in the light either turning on or off.
     bri - sets brightness to a specific value (0 - 254)
+    bri_inc - amount brightness can be incremented (-254 - 254). Exceeding the range will result in the light either turning on or off.
     ------------
     Adjust a lights brightness setting
   */
@@ -93,8 +93,6 @@ const adjustLightBrightness = async (
     console.error(error);
   }
 };
-
-// TODO: add service for changing color
 
 export default {
   getLights,
