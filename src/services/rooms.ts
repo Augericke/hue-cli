@@ -78,7 +78,7 @@ const toggleRoomOn = async (id: string, turnOn: boolean) => {
   }
 };
 
-const toggleRoomTheme = async (id: string, scene: string) => {
+const toggleRoomScene = async (id: string, scene: string) => {
   try {
     const body = { scene };
     const response = await api.put(`/groups/${id}/action/`, body);
@@ -115,6 +115,6 @@ export default {
   getRooms,
   getRoom,
   toggleRoomOn,
-  toggleRoomTheme,
+  toggleRoomScene,
   adjustRoomBrightness,
 };
