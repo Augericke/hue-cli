@@ -7,6 +7,7 @@ interface HueMdnsResponse {
   address: string;
   fqdn: string;
   modelName: string;
+  // ...
 }
 
 interface HueDiscoveryResponse {
