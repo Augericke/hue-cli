@@ -1,6 +1,7 @@
 import api from "../utils/axiosProvider";
 
 interface Light {
+  id?: string;
   state: {
     on: boolean;
     bri: number;
@@ -25,8 +26,13 @@ const getLights = async () => {
   */
 
   try {
-    const { data } = await api.get<Light[]>("/lights");
-    return data;
+    const { data } = await api.get<Record<string, Light>>("/lights");
+    const lights = Object.values(data).map((light, index) => {
+      light["id"] = (index + 1).toString();
+      return light;
+    });
+
+    return lights;
   } catch (error) {
     console.error(error);
   }
@@ -58,8 +64,6 @@ const toggleLightOn = async (id: number, turnOn: boolean) => {
   try {
     const body = { on: turnOn };
     const response = await api.put(`/lights/${id}/state/`, body);
-    console.log(response);
-
     return response;
   } catch (error) {
     console.error(error);
@@ -77,7 +81,7 @@ const adjustLightBrightness = async (
     bri_inc - amount brightness can be incremented (-254 - 254). Exceeding the range will result in the light either turning on or off.
     bri - sets brightness to a specific value (0 - 254)
     ------------
-    Turn light on or off
+    Adjust a lights brightness setting
   */
 
   try {

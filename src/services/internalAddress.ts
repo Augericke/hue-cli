@@ -29,9 +29,8 @@ const setInternalAddress = async () => {
     const localBridges = (await mdns.discover({
       name: "_hue._tcp.local",
     })) as HueMdnsResponse[];
-    config.set("internalIpAddress", localBridges[0].address);
 
-    return;
+    return config.set("internalIpAddress", localBridges[0].address);
   } catch (error) {
     console.log("Could not find bridge via mdns... trying discovery endpoint");
   }

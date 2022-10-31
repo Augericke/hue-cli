@@ -1,0 +1,111 @@
+import api from "../utils/axiosProvider";
+
+interface Room {
+  id?: string;
+  name: string;
+  lights: string[];
+  sensors: string[];
+  type: string;
+  state: {
+    all_on: boolean;
+    any_on: boolean;
+  };
+  action: {
+    on: boolean;
+    bri: number;
+    hue: number;
+    sat: number;
+    effect: string;
+    xy: [number, number];
+    ct: number;
+    alert: string;
+    colormode: string;
+  };
+  // ...
+}
+
+const getRooms = async () => {
+  /* 
+    ------------
+    Returns a complete list of all rooms connected to associated bridge
+  */
+
+  try {
+    const { data } = await api.get<Record<string, Room>>("/groups");
+    const groups = Object.values(data).map((room, index) => {
+      room["id"] = (index + 1).toString();
+
+      return room;
+    });
+
+    const rooms = groups.filter((group) => group.type === "Room");
+    console.log(rooms);
+    return rooms;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const getRoom = async (id: number) => {
+  /*
+    id - id of room as returned by getRooms()
+    ------------
+    Returns individual room determined by selected id
+  */
+
+  try {
+    const { data } = await api.get<Room>(`/groups/${id}`);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const toggleRoomOn = async (id: number, turnOn: boolean) => {
+  /* 
+    id - id of room as returned by getRooms()
+    turnOn - boolean on whether all light in a room should be turned on or off
+    ------------
+    Turn all lights in a room either on or off
+  */
+
+  try {
+    const body = { on: turnOn };
+    const response = await api.put(`/groups/${id}/action/`, body);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// Adjust room brightness (0 - 254)
+const adjustRoomBrightness = async (
+  id: number,
+  bri_inc?: number,
+  bri?: number,
+) => {
+  /* 
+    id - id of room as returned by getRooms()
+    bri_inc - amount brightness can be incremented (-254 - 254). Exceeding the range will result in the light either turning on or off.
+    bri - sets brightness to a specific value (0 - 254)
+    ------------
+    Adjust brightness of all lights in a room
+  */
+
+  try {
+    const body = { bri_inc, bri };
+    const response = await api.put(`/groups/${id}/action/`, body);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// TODO: add service for changing color
+
+export default {
+  getRooms,
+  getRoom,
+  toggleRoomOn,
+  adjustRoomBrightness,
+};
