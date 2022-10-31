@@ -15,7 +15,7 @@ interface Room {
     bri: number;
     hue: number;
     sat: number;
-    effect: string;
+    effect: "none" | "colorloop";
     xy: [number, number];
     ct: number;
     alert: string;
@@ -46,7 +46,7 @@ const getRooms = async () => {
   }
 };
 
-const getRoom = async (id: number) => {
+const getRoom = async (id: string) => {
   /*
     id - id of room as returned by getRooms()
     ------------
@@ -61,7 +61,7 @@ const getRoom = async (id: number) => {
   }
 };
 
-const toggleRoomOn = async (id: number, turnOn: boolean) => {
+const toggleRoomOn = async (id: string, turnOn: boolean) => {
   /* 
     id - id of room as returned by getRooms()
     turnOn - boolean on whether all light in a room should be turned on or off
@@ -78,9 +78,19 @@ const toggleRoomOn = async (id: number, turnOn: boolean) => {
   }
 };
 
+const toggleRoomTheme = async (id: string, scene: string) => {
+  try {
+    const body = { scene };
+    const response = await api.put(`/groups/${id}/action/`, body);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 // Adjust room brightness (0 - 254)
 const adjustRoomBrightness = async (
-  id: number,
+  id: string,
   bri_inc?: number,
   bri?: number,
 ) => {
@@ -105,5 +115,6 @@ export default {
   getRooms,
   getRoom,
   toggleRoomOn,
+  toggleRoomTheme,
   adjustRoomBrightness,
 };

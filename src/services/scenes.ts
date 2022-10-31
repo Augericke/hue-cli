@@ -35,7 +35,7 @@ const getGroupScenes = async () => {
   }
 };
 
-const getRoomScenes = async (roomId: number) => {
+const getRoomScenes = async (roomId: string) => {
   /* 
     roomId - id of room that scenes belong to
     ------------
@@ -64,4 +64,7 @@ const getRoomScenes = async (roomId: number) => {
   }
 };
 
-export default [getGroupScenes, getRoomScenes];
+export default {
+  getGroupScenes,
+  getRoomScenes,
+};

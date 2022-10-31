@@ -39,7 +39,7 @@ const getLights = async () => {
   }
 };
 
-const getLight = async (id: number) => {
+const getLight = async (id: string) => {
   /* 
     id - id of light as returned by getLights()
     ------------
@@ -54,7 +54,7 @@ const getLight = async (id: number) => {
   }
 };
 
-const toggleLightOn = async (id: number, turnOn: boolean) => {
+const toggleLightOn = async (id: string, turnOn: boolean) => {
   /* 
     id - id of light as returned by getLights()
     turnOn - boolean on whether light should be turned on or off
@@ -73,7 +73,7 @@ const toggleLightOn = async (id: number, turnOn: boolean) => {
 
 // Adjust lights brightness (0 - 254)
 const adjustLightBrightness = async (
-  id: number,
+  id: string,
   bri?: number,
   bri_inc?: number,
 ) => {

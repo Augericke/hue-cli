@@ -65,7 +65,7 @@ class Light extends BaseCommand {
                       required: false,
                       type: "number",
                       name: "brightness",
-                      description: `Do you want to adjust the brightness (currently: ${selectedLight.state.bri}) [available range 0 - 254]`,
+                      description: `Do you want to adjust the brightness? Currently: ${selectedLight.state.bri} [available range 0 - 254]`,
                       conform: function (value: number) {
                         return Math.abs(value) <= 254 && value >= 0;
                       },
@@ -96,7 +96,7 @@ class Light extends BaseCommand {
                     // Toggle light state if changed
                     if (shouldToggle) {
                       lightService.toggleLightOn(
-                        parseInt(selectedLight.id!),
+                        selectedLight.id!,
                         !selectedLight.state.on,
                       );
                     }
@@ -104,8 +104,8 @@ class Light extends BaseCommand {
                     // Toggle light brightness if provided
                     if (result.brightness) {
                       lightService.adjustLightBrightness(
-                        parseInt(selectedLight.id!),
-                        parseInt(result.brightness as string),
+                        selectedLight.id!,
+                        result.brightness as number,
                       );
                     }
                   },
@@ -115,10 +115,10 @@ class Light extends BaseCommand {
           );
         }
       } catch (error) {
-        console.log(error);
+        return error;
       }
     })();
-    this.result = "Available lights \n----------------";
+    this.result = "Available Lights \n----------------";
   }
 }
 
