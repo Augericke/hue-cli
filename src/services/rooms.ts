@@ -32,14 +32,14 @@ const getRooms = async () => {
 
   try {
     const { data } = await api.get<Record<string, Room>>("/groups");
+    const groupKeys = Object.keys(data);
     const groups = Object.values(data).map((room, index) => {
-      room["id"] = (index + 1).toString();
+      room["id"] = groupKeys[index];
 
       return room;
     });
 
     const rooms = groups.filter((group) => group.type === "Room");
-    console.log(rooms);
     return rooms;
   } catch (error) {
     console.error(error);

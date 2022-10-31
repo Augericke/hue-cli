@@ -27,8 +27,9 @@ const getLights = async () => {
 
   try {
     const { data } = await api.get<Record<string, Light>>("/lights");
+    const lightKeys = Object.keys(data);
     const lights = Object.values(data).map((light, index) => {
-      light["id"] = (index + 1).toString();
+      light["id"] = lightKeys[index];
       return light;
     });
 
