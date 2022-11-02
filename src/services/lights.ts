@@ -86,7 +86,7 @@ const adjustLightBrightness = async (
   */
 
   try {
-    const body = { bri_inc, bri };
+    const body = { on: true, bri_inc, bri };
     const response = await api.put(`/lights/${id}/state/`, body);
     return response;
   } catch (error) {

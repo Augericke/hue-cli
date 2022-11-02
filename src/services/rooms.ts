@@ -80,7 +80,7 @@ const toggleRoomOn = async (id: string, turnOn: boolean) => {
 
 const toggleRoomScene = async (id: string, scene: string) => {
   try {
-    const body = { scene };
+    const body = { on: true, scene };
     const response = await api.put(`/groups/${id}/action/`, body);
     return response;
   } catch (error) {
@@ -103,7 +103,7 @@ const adjustRoomBrightness = async (
   */
 
   try {
-    const body = { bri_inc, bri };
+    const body = { on: true, bri_inc, bri };
     const response = await api.put(`/groups/${id}/action/`, body);
     return response;
   } catch (error) {
