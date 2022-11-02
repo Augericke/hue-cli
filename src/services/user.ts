@@ -31,6 +31,7 @@ const createUser = async (name?: string) => {
       username: data[0].success.username,
     };
 
+    // Save user locally
     config.set("cliUser", response.username);
 
     return response;

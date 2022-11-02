@@ -1,19 +1,27 @@
 "use strict";
-var Command = require("commander").Command;
-var program = new Command();
-program
-    .name("string-util")
-    .description("CLI to some JavaScript string utilities")
-    .version("0.8.0");
-program
-    .command("split")
-    .description("Split a string into substrings and display as an array")
-    .argument("<string>", "string to split")
-    .option("--first", "display just the first substring")
-    .option("-s, --separator <char>", "separator character", ",")
-    .action(function (str, options) {
-    var limit = options.first ? 1 : undefined;
-    console.log(str.split(options.separator, limit));
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const commander_1 = require("commander");
+const commandList_1 = __importDefault(require("./utils/commandList"));
+const program = new commander_1.Command();
+commandList_1.default.forEach((command) => {
+    const commendDef = command.definition();
+    const subCommand = program
+        .command(commendDef.command)
+        .description(commendDef.help);
+    commendDef.arguments.forEach((arg, index) => {
+        subCommand.argument(arg[index]);
+    });
+    commendDef.options.forEach((option, index) => {
+        subCommand.option(option[index]);
+    });
+    subCommand.action(function () {
+        //@ts-ignore
+        command.action.apply(command, arguments);
+        console.log(command.getResult());
+    });
 });
 program.parse();
 //# sourceMappingURL=index.js.map

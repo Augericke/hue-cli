@@ -1,7 +1,8 @@
-//@ts-ignore
-import mdns from "node-dns-sd";
 import axios from "axios";
 import config from "../utils/conf";
+
+// @ts-ignore
+import mdns from "node-dns-sd";
 
 interface HueMdnsResponse {
   address: string;
@@ -20,7 +21,6 @@ interface HueDiscoveryResponse {
 const setInternalAddress = async () => {
   // Check if already stored locally
   if (config.get("internalIpAddress")) {
-    // TODO: add validation that address is still valid
     return;
   }
 

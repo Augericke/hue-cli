@@ -39,7 +39,7 @@ const getRoomScenes = async (roomId: string) => {
   /* 
     roomId - id of room that scenes belong to
     ------------
-    Returns individual light determined by selected id
+    Returns all scenes for selected room
   */
 
   try {

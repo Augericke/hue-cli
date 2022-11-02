@@ -6,7 +6,6 @@ import sceneService from "../services/scenes";
 class Room extends BaseCommand {
   constructor() {
     super("room", "control all lights in a specific room");
-    //TODO: add options to avoid prompt flow
   }
 
   action() {
