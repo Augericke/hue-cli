@@ -45,68 +45,69 @@ class Light extends BaseCommand {
               );
 
               if (selectedLight) {
+                const availableOptions = [
+                  `Turn ${!selectedLight.state.on ? "on" : "off"}`,
+                  "Adjust brightness",
+                ];
+
                 console.log(
-                  `You selected: ${selectedLight.name} (${selectedLight.id})`,
+                  `You selected: ${selectedLight.name} (${selectedLight.id})\n---------------`,
                 );
 
-                // Prompt user to toggle light on or off
+                // Display all options
+                availableOptions.map((option, index) => {
+                  console.log(`(${index + 1}) ${option}`);
+                });
+                console.log("---------------\n");
+
                 prompt.get(
-                  [
-                    {
-                      required: false,
-                      name: "toggle",
-                      description: `Do you want to turn this light ${
-                        selectedLight.state.on ? "off" : "on"
-                      }? (y/n)`,
-                      pattern: /^[YNyn]+$/,
-                      message: "Either y or n",
+                  {
+                    required: true,
+                    type: "number",
+                    name: "action",
+                    description:
+                      "Select a number from the available actions listed above",
+                    conform: function (value: number) {
+                      return (
+                        Math.abs(value) <= availableOptions.length && value > 0
+                      );
                     },
-                    {
-                      required: false,
-                      type: "number",
-                      name: "brightness",
-                      description: `Do you want to adjust the brightness? Currently: ${selectedLight.state.bri} [available range 0 - 254]`,
-                      conform: function (value: number) {
-                        return Math.abs(value) <= 254 && value >= 0;
-                      },
-                      // Only prompt if change in state results in the light being on
-                      ask: function () {
-                        return (
-                          (prompt
-                            .history("toggle")
-                            ?.value.toLocaleLowerCase() === "y" &&
-                            !selectedLight.state.on) ||
-                          (prompt
-                            .history("toggle")
-                            ?.value.toLocaleLowerCase() === "n" &&
-                            selectedLight.state.on)
-                        );
-                      },
-                      message: "Brightness value must be between 0-254",
-                    },
-                  ],
-                  function (error, result) {
+                    message:
+                      "Must choose a number from the available options listed above",
+                  },
+                  async (error, result) => {
                     if (error) {
                       return error.message;
                     }
 
-                    const shouldToggle =
-                      (result.toggle as string).toLocaleLowerCase() === "y";
+                    const brightnessProperty: prompt.Schema = {
+                      properties: {
+                        brightness: {
+                          required: false,
+                          type: "number",
+                          name: "brightness",
+                          description: `Adjust the brightness. Currently: ${selectedLight.state.bri} [available range 0 - 254]`,
+                          conform: function (value: number) {
+                            return Math.abs(value) <= 254 && value >= 0;
+                          },
+                        },
+                      },
+                    };
 
-                    // Toggle light state if changed
-                    if (shouldToggle) {
-                      lightService.toggleLightOn(
-                        selectedLight.id!,
-                        !selectedLight.state.on,
-                      );
-                    }
-
-                    // Toggle light brightness if provided
-                    if (result.brightness) {
-                      lightService.adjustLightBrightness(
-                        selectedLight.id!,
-                        result.brightness as number,
-                      );
+                    switch (result.action) {
+                      case 1: // Toggle Light
+                        lightService.toggleLightOn(
+                          selectedLight.id!,
+                          !selectedLight.state.on,
+                        );
+                        break;
+                      case 2: // Adjust Brightness
+                        prompt.get(brightnessProperty, (error, result) => {
+                          lightService.adjustLightBrightness(
+                            selectedLight.id!,
+                            result.brightness as number,
+                          );
+                        });
                     }
                   },
                 );

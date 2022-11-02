@@ -2,19 +2,25 @@
   "name": "hue-cli",
   "version": "1.0.0",
   "description": "CLI tool for interacting with the hue philips lighting ecosystem.",
-  "main": "index.js",
+  "main": "./bin/index.js",
   "scripts": {
-    "build": "rimraf ./build && tsc",
+    "build": "rimraf ./bin && tsc",
     "hue-dev": "npx ts-node ./src/index.ts",
-    "hue": "node ./build/index.js"
+    "hue": "node ./bin/index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Augericke/hue-cli.git"
   },
-  "keywords": [],
+  "keywords": [
+    "cli",
+    "hue"
+  ],
+  "bin": {
+    "hue": "./bin/index.js"
+  },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Augericke/hue-cli/issues"
   },
